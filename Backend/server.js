@@ -1,7 +1,7 @@
 import app from "./src/app.js";
 import dotenv from "dotenv";
-dotenv.config(); //loading environment variables from .env file
 import connectDB from "./src/config/database.js";
+dotenv.config(); //loading environment variables from .env file
 
 connectDB();
 app.listen(3000, () => {
