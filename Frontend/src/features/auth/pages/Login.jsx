@@ -11,14 +11,15 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const success = await handleLogin({ email, password })
-        if (success) {
+        const response = await handleLogin({ email, password })
+        console.log(response);
+        if (response === true) {
             navigate('/')
         }
     }
-
+    //TODO : Need to improve UI for loading here as Skillsync loading
     if (loading) {
-        return (<main><h1>Loading.......</h1></main>)
+        return (<main><h1>LOGIN Loading.......</h1></main>)
     }
 
 

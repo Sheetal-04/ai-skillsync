@@ -1,19 +1,42 @@
-import { createBrowserRouter, RouterProvider } from 'react-router';
+import { createBrowserRouter } from 'react-router';
 import Login from './features/auth/pages/Login.jsx';
 import Register from './features/auth/pages/Register.jsx';
 import Protected from './features/auth/components/Protected.jsx';
+import PublicOnly from './features/auth/components/PublicOnly.jsx';
+import Home from './features/interview/pages/Home.jsx';
+import Interview from './features/interview/pages/Interview.jsx';
 
 export const router = createBrowserRouter([
+    /**
+     * @readOnly - Protected routes 
+    */
     {
-        path: '/',
-        element: <Protected><h1> welcome to app </h1></Protected>,
+        element: <Protected />,
+        children: [
+            {
+                path: "/",
+                element: <Home />,
+            },
+            {
+                path: "/interview/:interviewId",
+                element: <Interview />,
+            },
+        ],
     },
+    /**
+     * @readOnly - Guest-only routes (redirect to home if already logged in)
+    */
     {
-        path: '/login',
-        element: <Login />,
+        element: <PublicOnly />,
+        children: [
+            {
+                path: "/login",
+                element: <Login />,
+            },
+            {
+                path: "/register",
+                element: <Register />,
+            },
+        ],
     },
-    {
-        path: '/register',
-        element: <Register />,
-    }
 ]);

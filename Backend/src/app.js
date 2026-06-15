@@ -16,4 +16,14 @@ import interviewRouter from "./routes/interview.routes.js";
 app.use("/api/auth", authRouter);
 app.use("/api/interview", interviewRouter);
 
+//----Global error handler (always responds with JSON, never HTML)----//
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+    console.error(err);
+    const status = err.status || err.statusCode || 500;
+    res.status(status).json({
+        message: err.message || "Internal Server Error",
+    });
+});
+
 export default app;

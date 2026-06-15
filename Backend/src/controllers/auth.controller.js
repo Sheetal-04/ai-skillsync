@@ -56,6 +56,7 @@ export const loginUserController = async (req, res) => {
     res.cookie("token", token, { httpOnly: true });
     return res.status(200).json({
         message: "User logged in successfully",
+        success: true,
         user: {
             id: user._id,
             username: user.username,

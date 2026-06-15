@@ -32,6 +32,7 @@ export async function logout() {
         const response = await api.get("/api/auth/logout")
         return response.data
     } catch (err) {
+        console.log(err)
     }
 }
 
