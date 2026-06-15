@@ -1,10 +1,13 @@
-import {getAllInterviewReports, getInterviewReportById, generateInterviewReport} from '../services/interview.api.js'
-import { useContext } from 'react'
+import { getAllInterviewReports, getInterviewReportById, generateInterviewReport, generateResumePdf } from '../services/interview.api.js'
+import { useContext, useEffect } from 'react'
 import { InterviewContext } from '../interview.context.jsx'
+import { useParams } from "react-router"
 
 export const useInterview = () => {
     const context = useContext(InterviewContext)
-    if(!context){
+    const { interviewId } = useParams()
+
+    if (!context) {
         throw new Error("useInterview must be used within an InterviewProvider")
     }
     const { report, setReport, loading, setLoading, reports, setReports } = useContext(InterviewContext)
@@ -50,5 +53,30 @@ export const useInterview = () => {
             setLoading(false)
         }
     }
-    return { report, loading, generateReport, getReportById, getAllReports, reports }
+    const getResumePdf = async (interviewReportId) => {
+        setLoading(true)
+        let response = null
+        try {
+            response = await generateResumePdf({ interviewReportId })
+            const url = window.URL.createObjectURL(new Blob([response], { type: "application/pdf" }))
+            const link = document.createElement("a")
+            link.href = url
+            link.setAttribute("download", `resume_${interviewReportId}.pdf`)
+            document.body.appendChild(link)
+            link.click()
+        }
+        catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    }
+    useEffect(() => {
+        if (interviewId) {
+            getReportById(interviewId)
+        } else {
+            getReports()
+        }
+    }, [interviewId])
+    return { report, loading, generateReport, getReportById, getAllReports, reports,getResumePdf }
 }
