@@ -1,15 +1,17 @@
-@use "./style/button.scss";
-
-* {
-	margin: 0%;
-	padding: 0%;
-	box-sizing: border-box;
+/* Keep this reset in Tailwind's `base` layer so it doesn't override
+   Tailwind utilities (unlayered rules always beat layered ones in v4). */
+@layer base {
+	* {
+		margin: 0%;
+		padding: 0%;
+		box-sizing: border-box;
+	}
 }
 html,
 body,
 #root {
 	width: 100%;
-    background-color: #161616;
-    color: whitesmoke;
-    font-family: 'Poppins', sans-serif;
+    background-color: #131318;
+    color: #e4e1e9;
+    font-family: 'Inter', sans-serif;
 }

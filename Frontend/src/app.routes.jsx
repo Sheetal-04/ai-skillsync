@@ -5,6 +5,7 @@ import Protected from './features/auth/components/Protected.jsx';
 import PublicOnly from './features/auth/components/PublicOnly.jsx';
 import Home from './features/interview/pages/Home.jsx';
 import Interview from './features/interview/pages/Interview.jsx';
+import NotFound from './components/NotFound.jsx';
 
 export const router = createBrowserRouter([
     /**
@@ -38,5 +39,13 @@ export const router = createBrowserRouter([
                 element: <Register />,
             },
         ],
+    },
+    /**
+     * @readOnly - Catch-all 404 (also used as the error fallback)
+    */
+    {
+        path: "*",
+        element: <NotFound />,
+        errorElement: <NotFound />,
     },
 ]);

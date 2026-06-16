@@ -1,6 +1,9 @@
 import { useContext, useEffect } from 'react'
+import toast from 'react-hot-toast'
 import { AuthContext } from '../auth.context.jsx'
 import { login, register, logout } from '../services/auth.api.js'
+
+const errorMessage = (error, fallback) => error?.response?.data?.message || fallback
 
 export const useAuth = () => {
     const { user, setUser, loading, setLoading } = useContext(AuthContext)
@@ -10,9 +13,11 @@ export const useAuth = () => {
         try {
             const data = await login({ email, password })
             setUser(data.user)
+            toast.success('Welcome back!')
             return true
         } catch (error) {
             console.log(error)
+            toast.error(errorMessage(error, 'Login failed. Please check your credentials.'))
             return false
         }
         finally {
@@ -23,11 +28,12 @@ export const useAuth = () => {
         setLoading(true)
         try {
             const data = await register({ username, email, password })
-            console.log(data)
             setUser(data.user)
+            toast.success('Account created successfully!')
             return true
         } catch (error) {
             console.log(error)
+            toast.error(errorMessage(error, 'Registration failed. Please try again.'))
             return false
         }
         finally {
@@ -37,11 +43,12 @@ export const useAuth = () => {
     const handleLogout = async () => {
         setLoading(true)
         try {
-            const data = await logout()
+            await logout()
             setUser(null)
-            setLoading(false)
+            toast.success('Logged out.')
         } catch (error) {
             console.log(error)
+            toast.error(errorMessage(error, 'Logout failed. Please try again.'))
         }
         finally {
             setLoading(false)

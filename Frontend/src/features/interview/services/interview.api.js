@@ -34,6 +34,7 @@ export const getInterviewReportById = async (interviewId) => {
         return response.data
     } catch (err) {
         console.log(err)
+        throw err
     }
 }
 /**
@@ -42,10 +43,10 @@ export const getInterviewReportById = async (interviewId) => {
 export const getAllInterviewReports = async () => {
     try {
         const response = await api.get(`/api/interview/`)
-        console.log('Response of all reports',response);
         return response.data
     } catch (err) {
         console.log(err)
+        throw err
     }
 }
 /**
@@ -59,5 +60,6 @@ export const generateResumePdf = async ({ interviewReportId }) => {
         return response.data
     } catch (err) {
         console.log(err)
+        throw err
     }
 }
