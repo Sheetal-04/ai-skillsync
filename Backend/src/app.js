@@ -4,8 +4,12 @@ import cors from "cors";
 const app = express();  //creating express app
 app.use(express.json()); //middleware to parse request body
 app.use(cookieParser()); //middleware to parse cookies
+const allowedOrigins = [
+    "http://localhost:5173",
+    ...(process.env.FRONTEND_URL?.split(",") || []),
+].map((o) => o.trim()).filter(Boolean);
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     credentials: true,
 }))
 //----Routes import ----//
